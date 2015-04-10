@@ -48,7 +48,6 @@ public class RecommendationFragment extends Fragment {
 	private String mType;
 	private WebView mContent;
 
-
 	public void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
 
