@@ -16,8 +16,8 @@
 
         <meta-data android:name="LEONIS_SERVER_PROTOCOL" android:value="https" />
         <meta-data android:name="LEONIS_SERVER_VERSION" android:value="1.0" />
-        <meta-data android:name="LEONIS_SERVER_HOST" android:value="＜API接続先のホスト名を設定して下さい。＞" />
-        <meta-data android:name="LEONIS_APPLICATION_KEY" android:value="＜API接続先のアプリケーションキーを設定して下さい。＞" />
+        <meta-data android:name="LEONIS_SERVER_HOST" android:value="demo-platform-staging.leonisand.co" />
+        <meta-data android:name="LEONIS_APPLICATION_KEY" android:value="xygAagrSegaaL" />
 
         <activity android:label="@string/app_name" android:name=".MainActivity">
             <intent-filter>

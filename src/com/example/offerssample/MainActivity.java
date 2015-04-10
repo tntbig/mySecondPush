@@ -49,7 +49,6 @@ public class MainActivity extends ActionBarActivity{
 	private FragmentTabHost mFragmentTabHost;
 	private OnTouchListener mTabTouchListener;
 	private Intent mIntent;
-	private int a ;
 
 	public boolean onCreateOptionsMenu(Menu menu){
 		menu.clear();
