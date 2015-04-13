@@ -110,7 +110,7 @@ public class CouponsFragment extends Fragment {
 		mContext = layoutinflater.getContext();
 		View view = layoutinflater.inflate(R.layout.fragment, viewgroup, false);
 		LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.fragment_content);
-		//mProgressBar = (ProgressBar) getActivity().findViewById(R.id.progressbar);
+		mProgressBar = (ProgressBar) getActivity().findViewById(R.id.progressbar);
 
 		mListView = new ListView(mContext);
 		mListView.setId(android.R.id.list);
@@ -204,10 +204,10 @@ public class CouponsFragment extends Fragment {
 
 		//((MainActivity) getActivity()).onFragmentStart(this);
 		
-		//mProgressBar.setVisibility(View.VISIBLE);
+		mProgressBar.setVisibility(View.VISIBLE);
 		OffersListener listener = new OffersListener() {
 			public void onDone(Map<String, Object> map) {
-				//mProgressBar.setVisibility(View.GONE);
+				mProgressBar.setVisibility(View.GONE);
 
 				if(mListAdapter == null){
 					return;
@@ -234,7 +234,7 @@ public class CouponsFragment extends Fragment {
 			}
 
 			public void onFail(Integer s) {
-				//mProgressBar.setVisibility(View.GONE);
+				mProgressBar.setVisibility(View.GONE);
 				((MainActivity) getActivity()).alert("coupons.onFail", s.toString());
 			}
 		};

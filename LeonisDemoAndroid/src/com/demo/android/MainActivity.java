@@ -185,14 +185,12 @@ public class MainActivity extends ActionBarActivity {
 		Fragment fragment = null;
 		Bundle args = new Bundle();
 		switch (possition) {
-
-
 		case 2:
 			fragment = new CouponsFragment();
-
 			break;
 		
 		default:
+			fragment = new CouponsFragment();
 			break;
 		}
 
