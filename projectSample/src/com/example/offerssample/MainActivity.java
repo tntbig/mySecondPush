@@ -137,7 +137,7 @@ public class MainActivity extends ActionBarActivity{
 		mOnBackStackChangedListener = new android.support.v4.app.FragmentManager.OnBackStackChangedListener() {
 			public void onBackStackChanged(){
 				if(getSupportFragmentManager().getBackStackEntryCount() > 0){
-					mActionBar.setHomeAsUpIndicator(R.drawable.abc_ic_ab_back_holo_light);
+					mActionBar.setHomeAsUpIndicator(R.drawable.ic_transparent);
 				}else{
 					mActionBar.setHomeAsUpIndicator(R.drawable.ic_transparent);
 				}

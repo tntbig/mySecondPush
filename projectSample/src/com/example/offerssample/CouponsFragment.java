@@ -123,6 +123,7 @@ public class CouponsFragment extends Fragment {
 				CouponFragment couponfragment = new CouponFragment();
 				couponfragment.setArguments(bundle1);
 				
+				
 				getFragmentManager()
 				.beginTransaction()
 				.add(R.id.container, couponfragment, CouponFragment.TITLE)

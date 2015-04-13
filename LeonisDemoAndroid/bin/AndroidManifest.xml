@@ -1,20 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.leonisdemoandroid"
+    package="com.tutecentral.navigationdrawer"
     android:versionCode="1"
     android:versionName="1.0" >
 
     <uses-sdk
         android:minSdkVersion="14"
-        android:targetSdkVersion="21" />
+        android:targetSdkVersion="19" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/Theme.AppCompat.Light" >
+        <meta-data
+            android:name="LEONIS_SERVER_PROTOCOL"
+            android:value="https" />
+        <meta-data
+            android:name="LEONIS_SERVER_VERSION"
+            android:value="1.0" />
+        <meta-data
+            android:name="LEONIS_SERVER_HOST"
+            android:value="demo-platform-staging.leonisand.co" />
+        <meta-data
+            android:name="LEONIS_APPLICATION_KEY"
+            android:value="xygAagrSegaaL" />
+
         <activity
-            android:name=".MainActivity"
+            android:name="com.demo.android.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

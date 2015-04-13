@@ -21,7 +21,7 @@
     android:layout_marginLeft="-3dip"
     android:layout_marginRight="-3dip"
     android:orientation="vertical"
-    android:background="@drawable/abc_tab_indicator_ab_holo">
+    >
 
     <ImageView android:id="@+id/icon"
         android:layout_marginTop="10dip"
