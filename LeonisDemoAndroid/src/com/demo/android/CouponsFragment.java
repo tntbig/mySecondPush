@@ -1,48 +1,47 @@
 package com.demo.android;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import com.tutecentral.navigationdrawer.R;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
-import co.leonisand.leonis.Image.ImageListener;
 import co.leonisand.offers.OffersCoupon;
 import co.leonisand.offers.OffersKit;
 import co.leonisand.offers.OffersKit.OffersListener;
 import co.leonisand.offers.OffersStatus;
-import co.leonisand.offers.OffersTemplate;
+import com.tutecentral.navigationdrawer.R;
 
+@SuppressLint("HandlerLeak")
 public class CouponsFragment extends Fragment {
 
 	public static String TITLE = "クーポン一覧";
 	private Context mContext;
 	private ArrayAdapter<OffersCoupon> mListAdapter;
-	private ListView mListView;
+	private ArrayList<OffersCoupon> mList = new ArrayList<OffersCoupon>();
+	public ListView mListView;
 	private ProgressBar mProgressBar;
 	private int mTargetGroupId;
 	private int mTargetCategoryId;
+	public AdapterCoupon adapter ;
 
 	public void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
@@ -114,10 +113,13 @@ public class CouponsFragment extends Fragment {
 
 		mListView = new ListView(mContext);
 		mListView.setId(android.R.id.list);
-		mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+		mListView.setOnItemClickListener(new OnItemClickListener() {
 
-			public void onItemClick(AdapterView<?> adapterview, View view1, int i, long l) {
-				OffersCoupon offerscoupon = (OffersCoupon) adapterview .getItemAtPosition(i);
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				// TODO Auto-generated method stub
+				OffersCoupon offerscoupon = (OffersCoupon) mList.get(position);
 				Bundle bundle1 = new Bundle();
 				bundle1.putInt("coupon_id", offerscoupon.getId());
 				bundle1.putString("title", offerscoupon.getTitle());
@@ -131,73 +133,97 @@ public class CouponsFragment extends Fragment {
 				.addToBackStack(null)
 				.commit();
 			}
-
 		});
+//		mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//
+//			public void onItemClick(AdapterView<?> adapterview, View view1, int i, long l) {
+//				OffersCoupon offerscoupon = (OffersCoupon) adapterview .getItemAtPosition(i);
+//				Bundle bundle1 = new Bundle();
+//				bundle1.putInt("coupon_id", offerscoupon.getId());
+//				bundle1.putString("title", offerscoupon.getTitle());
+//				CouponFragment couponfragment = new CouponFragment();
+//				couponfragment.setArguments(bundle1);
+//				
+//				getFragmentManager()
+//				.beginTransaction()
+//				.add(R.id.content_frame, couponfragment, CouponFragment.TITLE)
+//				.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+//				.addToBackStack(null)
+//				.commit();
+//			}
+//
+//		});
 
-		mListAdapter = new ArrayAdapter<OffersCoupon>(mContext, android.R.layout.simple_list_item_1) {
-			private LayoutInflater mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-			ImageListener imageListener = new ImageListener() {
-				public void onDone(View view, Bitmap bitmap) {
-					((ImageView) view).setImageBitmap(bitmap);
-				}
-			};
-
-			@SuppressLint("InflateParams")
-			public View getView(int i, View view1, ViewGroup viewgroup1) {
-				if (view1 == null) {
-					view1 = new LinearLayout(mContext);
-					((LinearLayout) view1).setOrientation(LinearLayout.HORIZONTAL);
-
-					ImageView imageview = new ImageView(mContext);
-					imageview.setId(android.R.id.widget_frame);
-					imageview.setLayoutParams(new LinearLayout.LayoutParams(72, 72));
-					imageview.setScaleType(android.widget.ImageView.ScaleType.FIT_CENTER);
-					((ViewGroup) view1).addView(imageview);
-
-					TextView textview = (TextView) mLayoutInflater.inflate(android.R.layout.simple_list_item_1, null);
-					textview.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 1.0F));
-					((ViewGroup) view1).addView(textview);
-				}
-				OffersCoupon offerscoupon = (OffersCoupon) getItem(i);
-				TextView textview1 = (TextView) view1.findViewById(android.R.id.text1);
-
-				String s;
-				if (offerscoupon.getRead()){
-					s = "既読";
-				}else{
-					s = "未読";
-				}
-				textview1.setText("[" + s + "]" + offerscoupon.getAvailableFrom().toString() +" "+ offerscoupon.getTitle());
-				offerscoupon.thumbnailImageBitmap((ImageView) view1.findViewById(android.R.id.widget_frame), imageListener);
-
-				final View _convertView = view1;
-
-				offerscoupon.template(new OffersListener() {
-					public void onDone(Map<String, Object> map) {
-						if (map.get("template") != null) {
-							@SuppressWarnings("unchecked")
-							Map<String, Object> map1 = (Map<String, Object>) ((OffersTemplate) map.get("template")).getValues().get("background");
-							_convertView.setBackgroundColor(Color.parseColor((String) map1.get("color")));
-						}
-					}
-
-					public void onFail(Integer s) {
-						((MainActivity) getActivity()).alert("onFail", s.toString());
-					}
-				});
-				
-				return view1;
-			}
-		};
-
-		mListView.setAdapter(mListAdapter);
+//		mListAdapter = new ArrayAdapter<OffersCoupon>(mContext, android.R.layout.simple_list_item_1) {
+//			private LayoutInflater mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//
+//			ImageListener imageListener = new ImageListener() {
+//				public void onDone(View view, Bitmap bitmap) {
+//					((ImageView) view).setImageBitmap(bitmap);
+//				}
+//			};
+//
+//			@SuppressLint("InflateParams")
+//			public View getView(int i, View view1, ViewGroup viewgroup1) {
+//				if (view1 == null) {
+//					view1 = new LinearLayout(mContext);
+//					((LinearLayout) view1).setOrientation(LinearLayout.HORIZONTAL);
+//
+//					ImageView imageview = new ImageView(mContext);
+//					imageview.setId(android.R.id.widget_frame);
+//					imageview.setLayoutParams(new LinearLayout.LayoutParams(72, 72));
+//					imageview.setScaleType(android.widget.ImageView.ScaleType.FIT_CENTER);
+//					((ViewGroup) view1).addView(imageview);
+//
+//					TextView textview = (TextView) mLayoutInflater.inflate(android.R.layout.simple_list_item_1, null);
+//					textview.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 1.0F));
+//					((ViewGroup) view1).addView(textview);
+//				}
+//				OffersCoupon offerscoupon = (OffersCoupon) getItem(i);
+//				TextView textview1 = (TextView) view1.findViewById(android.R.id.text1);
+//
+//				String s;
+//				if (offerscoupon.getRead()){
+//					s = "既読";
+//				}else{
+//					s = "未読";
+//				}
+//				textview1.setText("[" + s + "]" + offerscoupon.getAvailableFrom().toString() +" "+ offerscoupon.getTitle());
+//				offerscoupon.thumbnailImageBitmap((ImageView) view1.findViewById(android.R.id.widget_frame), imageListener);
+//
+//				final View _convertView = view1;
+//
+//				offerscoupon.template(new OffersListener() {
+//					public void onDone(Map<String, Object> map) {
+//						if (map.get("template") != null) {
+//							@SuppressWarnings("unchecked")
+//							Map<String, Object> map1 = (Map<String, Object>) ((OffersTemplate) map.get("template")).getValues().get("background");
+//							_convertView.setBackgroundColor(Color.parseColor((String) map1.get("color")));
+//						}
+//					}
+//
+//					public void onFail(Integer s) {
+//						((MainActivity) getActivity()).alert("onFail", s.toString());
+//					}
+//				});
+//				
+//				return view1;
+//			}
+//		};
+		Log.e("man", "man" + mList.size());
+		adapter = new AdapterCoupon(mList, mContext);
+		mListView.setAdapter(adapter);
 		linearLayout.addView(mListView);
 
 		return view;
 	}
 
-
+	public  Handler myHandler = new Handler() {
+	    public void handleMessage(Message msg) {
+	    	adapter.mList = mList ;
+	        adapter.notifyDataSetChanged();
+	    }
+	};
 
 	public void onStart() {
 		super.onStart();
@@ -209,19 +235,20 @@ public class CouponsFragment extends Fragment {
 			public void onDone(Map<String, Object> map) {
 				mProgressBar.setVisibility(View.GONE);
 
-				if(mListAdapter == null){
-					return;
-				}
-
-				mListAdapter.clear();
+//				if(mListAdapter == null){
+//					return;
+//				}
+//
+//				mListAdapter.clear();
 
 				if (map.get("coupons") != null) {
 					@SuppressWarnings("unchecked")
 					List<OffersCoupon> items = (List<OffersCoupon>) map.get("coupons");
 					for(OffersCoupon item : items){
-						mListAdapter.add(item);
+						//mListAdapter.add(item);
+						mList.add(item);
 					}
-
+					myHandler.sendEmptyMessage(0);
 				} else {
 					OffersStatus offersstatus = (OffersStatus) map.get("status");
 					if(offersstatus != null) {
@@ -262,7 +289,7 @@ public class CouponsFragment extends Fragment {
 	
 	public void onDestroyView() {
 		mListView.setAdapter(null);
-		mListAdapter = null;
+		//mListAdapter = null;
 		super.onDestroyView();
 	}
 
