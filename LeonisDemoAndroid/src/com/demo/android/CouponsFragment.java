@@ -211,7 +211,7 @@ public class CouponsFragment extends Fragment {
 //			}
 //		};
 		Log.e("man", "man" + mList.size());
-		adapter = new AdapterCoupon(mList, mContext);
+		adapter = new AdapterCoupon(mList, mContext , (MainActivity) getActivity());
 		mListView.setAdapter(adapter);
 		linearLayout.addView(mListView);
 
